@@ -8,14 +8,24 @@ public class Genitore {
         this.classeFiglio = classeFiglio;
     }
 
-    public void prenotaColloquio(String orario){
-        if (){
-            return true;
+    public void prenotaColloquio(Professore professore, String orario){
+        Colloquio prenotato = professore.setColloquio(orario, this);
+        if (prenotato == null){
+
+        }else {
+            colloquio = prenotato;
         }
-        return false;
+    }
+
+    public String mostraPrenotazione(){
+        return colloquio.toStringGenitore();
+    }
+
+    public void faiColloquio(){
+        colloquio = null;
     }
 
     public String toString(){
-        return getClass() + "[figlio: " + figlio + "classe figlio: " + classeFiglio + "]";
+        return "[figlio: " + figlio + ", classe figlio: " + classeFiglio + "]";
     }
 }
