@@ -9,24 +9,34 @@ public class Professore {
         prenotazioni = new Colloquio[4];
     }
 
-    public Colloquio setColloquio(String orario, Genitore genitore){
+    public Colloquio setColloquio(String orario, Genitore genitore) {
         int indice = trovaIndice(orario);
-        if (prenotazioni[indice] == null){
-            prenotazioni[indice] = new Colloquio(orario, genitore, this);
-        }else {
-            for (int i = 0; i<prenotazioni.length; i++){
-                if (prenotazioni[i] == null){
-                    indice = i;
-                    break;
-                }
-                if (i == prenotazioni.length -1){
-                    SistemaPrenotazioniException nessunPosto = new SistemaPrenotazioniException();
-                    throw nessunPosto;
-                }
+        try {
+            isLibero(indice);
+        } catch (SlotOccupatoException slotOccupatoException) {
+            try{
+                indice = trovaIndiceLibero();
+            } catch (SlotEsauritiException slotEsauritiException){
+                throw new SlotEsauritiException();
             }
-            prenotazioni[indice] = new Colloquio(toOrario(indice*15), genitore, this);
         }
+        prenotazioni[indice] = new Colloquio(orario, genitore, this);
         return prenotazioni[indice];
+    }
+
+    private void isLibero(int indice){
+        if (prenotazioni[indice] != null) {
+            throw new SlotOccupatoException();
+        }
+    }
+
+    private int trovaIndiceLibero(){
+        for (int i = 0; i<prenotazioni.length; i++){
+            if (prenotazioni[i] == null){
+                return i;
+            }
+        }
+        throw new SlotEsauritiException();
     }
 
     private int trovaIndice(String orario){
