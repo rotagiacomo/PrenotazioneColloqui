@@ -1,10 +1,14 @@
 public class Genitore {
+    private String nome;
+    private String cognome;
     private String figlio;
     private String classeFiglio;
     private Colloquio colloquio;
 
-    public Genitore(String figlio, String classeFiglio){
-        this.figlio = figlio;
+    public Genitore(String nome, String cognome, String nomeFiglio, String classeFiglio){
+        this.nome = nome;
+        this.cognome = cognome;
+        this.figlio = nomeFiglio;
         this.classeFiglio = classeFiglio;
     }
 
@@ -17,12 +21,16 @@ public class Genitore {
         }
     }
 
+    public void annullaColloquio(){
+        colloquio.getProfessore().faiColloquio(colloquio.getOrario());
+    }
+
     public String mostraPrenotazione(){
         return colloquio.toStringGenitore();
     }
 
-    public void faiColloquio(){
-        colloquio = null;
+    public void setColloquio(Colloquio colloquio){
+        this.colloquio = colloquio;
     }
 
     public String toString(){

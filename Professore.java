@@ -1,9 +1,11 @@
 public class Professore {
     private String nome;
+    private String cognome;
     private Colloquio[] prenotazioni;
 
-    public Professore(String nome){
+    public Professore(String nome, String cognome){
         this.nome = nome;
+        this.cognome = cognome;
         prenotazioni = new Colloquio[4];
     }
 
@@ -18,10 +20,11 @@ public class Professore {
                     break;
                 }
                 if (i == prenotazioni.length -1){
-                    return null;
+                    SistemaPrenotazioniException nessunPosto = new SistemaPrenotazioniException();
+                    throw nessunPosto;
                 }
             }
-            prenotazioni[indice] = new Colloquio("12:" + Integer.toString(indice*15), genitore, this);
+            prenotazioni[indice] = new Colloquio(toOrario(indice*15), genitore, this);
         }
         return prenotazioni[indice];
     }
@@ -40,8 +43,21 @@ public class Professore {
         return i;
     }
 
-    public void faiColloquio(String orario){
+    private String toOrario(int minuti){
+        String stringa = "12:" + minuti;
+        if (minuti == 0){
+            stringa += "0";
+        }
+        return stringa;
+    }
 
+    public void faiColloquio(String orario){
+        for (int i = 0; i<prenotazioni.length; i++){
+            if (prenotazioni[i] != null && prenotazioni[i].getOrario().equals(orario)){
+                prenotazioni[i].getGenitore().setColloquio(null);
+                prenotazioni[i] = null;
+            }
+        }
     }
 
     public String mostraPrenotazioni(){
@@ -57,5 +73,9 @@ public class Professore {
             }
         }
         return stringa += "]";
+    }
+
+    public String toString(){
+        return cognome;
     }
 }

@@ -6,6 +6,7 @@ public class Colloquio {
     public Colloquio(String orario, Genitore genitore, Professore professore){
         this.orario = orario;
         this.genitore = genitore;
+        this.professore = professore;
     }
 
     public void setGenitore(Genitore genitore){
@@ -24,11 +25,15 @@ public class Colloquio {
         return orario;
     }
 
+    public Professore getProfessore(){
+        return professore;
+    }
+
     public String toStringProfessore(){
         return "[orario: " + orario + ", genitore: " + genitore + "]";
     }
 
     public String toStringGenitore(){
-        return "[orario: " + orario + "professore: " + professore + "]";
+        return "[orario: " + orario + ", professore: " + professore + "]";
     }
 }
